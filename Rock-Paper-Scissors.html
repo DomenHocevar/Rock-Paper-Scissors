@@ -2,10 +2,56 @@
 
 <html lang = "en">
     <head>
-        <title>Rock-Paper-Scissors</title>
+        <title>Rock Paper Scissors</title>
+        <link rel = "stylesheet" href = "Rock-Paper-Scissors.css">
     </head>
 
     <body>
-        <script src="Rock-Paper-Scissors.js"></script> 
+        <header> 
+            <h1>Rock Paper Scissors</h1>
+        </header>
+        
+        <section id = "setup">
+            <h2>Setup</h2>
+
+            <div>
+                <label for = "roundsNumber"> Insert the number of rounds you wish to play.</label>
+                <input id = "roundsNumber" type = "text" placeholder="number of rounds">
+                <button id = "roundsNumberSubmit"> Submit </button>
+            </div>
+
+            
+        </section>
+
+     
+        <section id = "game">
+            <h2>Game</h2>
+
+            
+
+            <div>
+                <h3>Choose a weapon:</h3>
+                <button class = "choiceButton">Rock</button>
+                <button class = "choiceButton">Paper</button>
+                <button class = "choiceButton">Scissors</button>
+            </div>
+
+            <h3 id = "resultDisplay"></h3>
+        </section>
+
+        
+
+        <section id = "ending">
+            <h3 id = "endingMessage">
+
+            </h3>
+        </section>
+        
+        <div id = "gameScore">    
+            <h3>Player Score: <div id = "scorePlayer"></div></h3>
+            <h3>Computer Score: <div id = "scoreComputer"></div></h3>
+        </div> 
     </body>
 </html>
+
+<script src="Rock-Paper-Scissors.js"></script> 

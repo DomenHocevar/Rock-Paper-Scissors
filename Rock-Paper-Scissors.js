@@ -3,6 +3,66 @@
 let types = ["rock", "paper", "scissors"];
 let capitalTypes = ["Rock", "Paper", "Scissors"];
 
+let wantedRounds;
+let roundsPlayed;
+let playerScore;
+let computerScore;
+
+function toggleGameScore(on) {
+    const gameScore = document.querySelector("#gameScore");
+    if (on)
+    {
+        gameScore.style.display = "block";
+    } else
+    {
+        gameScore.style.display = "none";
+    }
+}
+
+function toggleSection (wanted) {
+    const sections = document.querySelectorAll("section");
+    sections.forEach(section => 
+    {
+        if (section.id == wanted)
+        {
+            section.style.display = "block";
+
+        } else
+        {
+            section.style.display = "none";
+        }
+    });
+}
+
+function ending() {
+    toggleSection("ending");
+    toggleGameScore(true);
+
+    const endingMessage = document.querySelector("#endingMessage");
+    if (playerScore > computerScore)
+    {
+        endingMessage.textContent = "You win the game!";
+    }
+    if (playerScore == computerScore)
+    {
+        endingMessage.textContent = "It's a tie game!";
+    }
+    if (playerScore < computerScore)
+    {
+        endingMessage.textContent = "You lose the game!";
+    }
+}
+
+
+
+function setScore()
+{
+    let playerDiv = document.querySelector("#scorePlayer");
+    let computerDiv = document.querySelector("#scoreComputer");
+    playerDiv.innerHTML = playerScore;
+    computerDiv.innerHTML = computerScore;
+}
+
 function playRound(playerSelection, computerSelection)
 {
     let ind1 = -1;
@@ -19,72 +79,98 @@ function playRound(playerSelection, computerSelection)
         }
     }
 
+    roundsPlayed++;
+
     if (ind1 == ind2)
     {
         return "A tie!";
     }
     if ((ind1 + 1) % 3 == ind2)
     {
+        computerScore++;
         return "You lose! " + capitalTypes[ind2] + " beats " + types[ind1] + ".";
     }
     if ((ind2 + 1) % 3 == ind1)
     {
+        playerScore++;
         return "You win! " + capitalTypes[ind1] + " beats " + types[ind2] + ".";
     }
 }
 
-
-function getPlayerSelection(firstTry)
-{
-    let mainQuestion = "Choose your weapon (either rock, paper or scissors)."
-    let selection;
-    if (firstTry)
-    {
-        selection = window.prompt(mainQuestion, "Rock");
-    } else
-    {
-        selection = window.prompt("Invalid answer! " + mainQuestion, "Rock");
-    }
-    selection = selection.toLowerCase();
-
-    return selection;
-}
-
-function getComputerSelection(params) {
+function getComputerSelection() {
     let choice = Math.floor(Math.random() * 3);
     return types[choice];
 }
 
-function validWeapon(weapon)
-{
-    
-    for (i = 0; i < 3; i++)
+function handlePlayerSelection(e) {
+    console.log(e);
+    let playerSelection = this.textContent;
+    playerSelection = playerSelection.toLowerCase();
+
+    let computerSelection = getComputerSelection();
+
+    let result = playRound(playerSelection, computerSelection);
+    setScore();
+    const resultDisplay = document.querySelector("#resultDisplay");
+    resultDisplay.textContent = result;
+
+    if (roundsPlayed == wantedRounds)
     {
-        if (types[i] == weapon) return true;
+        ending();
     }
+}
 
+function game() {
+
+    toggleSection("game");
+    toggleGameScore(true);
+
+    playerScore = 0;
+    computerScore = 0;
+    roundsPlayed = 0;
+    const resultDisplay = document.querySelector("#resultDisplay");
+    resultDisplay.textContent = "";
+
+
+    const buttons = document.querySelectorAll(".choiceButton");
+    console.log(buttons.length);
+    buttons.forEach(button => button.addEventListener("click", handlePlayerSelection));
+}
+
+
+function handleSubmitRounds(e)
+{
+    const textField = document.querySelector("#roundsNumber");
+    let num = Number(textField.value);
     
-    return false;
-}
+  
 
-function game(params) {
-
-    let wantedRounds = window.prompt("How many rounds do you want to play?", 3);
-    for (round = 0; round < wantedRounds; round++)
-    {   
-
-        let firstTry = true;
-        let playerSelection = getPlayerSelection(firstTry);
-        
-        while (!validWeapon(playerSelection))
-        {
-            firstTry = false;
-            playerSelection = getPlayerSelection(firstTry);
-        }
-
-        let computerSelection = getComputerSelection()
-        console.log(playRound(playerSelection, computerSelection));
+    if (!textField.value || Number.isNaN(num))
+    {
+        console.log("oj");
+        textField.placeholder = "That's not a number!";
+    } else
+    {
+        textField.placeholder = "number of rounds";
+        wantedRounds = num;
+        game();
     }
 }
 
-game();
+
+
+function setup() {
+    toggleSection("setup");
+    toggleGameScore(false);
+
+    const textField = document.querySelector("#roundsNumber");
+    const button = document.querySelector("#roundsNumberSubmit");
+    button.addEventListener("click", handleSubmitRounds);
+}
+
+setup();
+
+
+
+
+
