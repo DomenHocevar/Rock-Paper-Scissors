@@ -25,7 +25,7 @@ h1
 
 h2
 {
-    background-color: #a2b9bc;
+    background: linear-gradient(90deg, black, #a2b9bc, black);
     text-align: center;
     margin-top: 0px;
     margin-bottom: 5%;
