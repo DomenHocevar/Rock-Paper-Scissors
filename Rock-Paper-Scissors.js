@@ -57,10 +57,10 @@ function ending() {
 
 function setScore()
 {
-    let playerDiv = document.querySelector("#scorePlayer");
-    let computerDiv = document.querySelector("#scoreComputer");
-    playerDiv.innerHTML = playerScore;
-    computerDiv.innerHTML = computerScore;
+    let playerSpan = document.querySelector("#scorePlayer");
+    let computerSpan = document.querySelector("#scoreComputer");
+    playerSpan.innerHTML = playerScore;
+    computerSpan.innerHTML = computerScore;
 }
 
 function playRound(playerSelection, computerSelection)
@@ -103,7 +103,6 @@ function getComputerSelection() {
 }
 
 function handlePlayerSelection(e) {
-    console.log(e);
     let playerSelection = this.textContent;
     playerSelection = playerSelection.toLowerCase();
 
@@ -133,7 +132,6 @@ function game() {
 
 
     const buttons = document.querySelectorAll(".choiceButton");
-    console.log(buttons.length);
     buttons.forEach(button => button.addEventListener("click", handlePlayerSelection));
 }
 
@@ -147,8 +145,7 @@ function handleSubmitRounds(e)
 
     if (!textField.value || Number.isNaN(num))
     {
-        console.log("oj");
-        textField.placeholder = "That's not a number!";
+        alert("That's not a number!");
     } else
     {
         textField.placeholder = "number of rounds";
