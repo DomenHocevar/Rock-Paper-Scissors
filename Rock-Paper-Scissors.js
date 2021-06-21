@@ -8,6 +8,8 @@ let roundsPlayed;
 let playerScore;
 let computerScore;
 
+let currentResultDisplayText;
+
 function toggleGameScore(on) {
     const gameScore = document.querySelector("#gameScore");
     if (on)
@@ -102,6 +104,19 @@ function getComputerSelection() {
     return types[choice];
 }
 
+
+function afterErasing() {
+    console.log(this.style.opacity);
+    console.log(this.style.transition);
+    if (this.style.opacity == "0")
+    {
+        
+        this.style.transition = "opacity 1s";
+        this.style.opacity = "1";
+        this.textContent = currentResultDisplayText;
+    }
+}
+
 function handlePlayerSelection(e) {
     let playerSelection = this.textContent;
     playerSelection = playerSelection.toLowerCase();
@@ -111,7 +126,15 @@ function handlePlayerSelection(e) {
     let result = playRound(playerSelection, computerSelection);
     setScore();
     const resultDisplay = document.querySelector("#resultDisplay");
-    resultDisplay.textContent = result;
+    currentResultDisplayText = result;
+    resultDisplay.style.transition = "opacity 0.000001s";
+    resultDisplay.style.opacity = "0";
+    
+    
+
+    
+    
+    
 
     if (roundsPlayed == wantedRounds)
     {
@@ -128,8 +151,8 @@ function game() {
     computerScore = 0;
     roundsPlayed = 0;
     const resultDisplay = document.querySelector("#resultDisplay");
-    resultDisplay.textContent = "";
-
+    currentResultDisplayText = "";
+    resultDisplay.textContent = currentResultDisplayText;
 
     const buttons = document.querySelectorAll(".choiceButton");
     buttons.forEach(button => button.addEventListener("click", handlePlayerSelection));
@@ -163,6 +186,9 @@ function setup() {
     const textField = document.querySelector("#roundsNumber");
     const button = document.querySelector("#roundsNumberSubmit");
     button.addEventListener("click", handleSubmitRounds);
+
+    const resultDisplay = document.querySelector("#resultDisplay");
+    resultDisplay.addEventListener("transitionend", afterErasing);
 }
 
 setup();
